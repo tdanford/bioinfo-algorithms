@@ -26,12 +26,13 @@ public class SuffixArray {
   }
 
   private boolean matchesAt(String query, int position) {
-    for(int i = 0; i < query.length(); i++) {
+    int i;
+    for(i = 0; i < query.length() && position + i < base.length(); i++) {
       if(query.charAt(i) != base.charAt(position + i)) {
         return false;
       }
     }
-    return true;
+    return i >= query.length();
   }
 
   public Set<Integer> findMatches(String query) {
@@ -112,7 +113,7 @@ public class SuffixArray {
       System.out.println(String.format("=> [%d, %d]", bottom, top));
       return new int[] { bottom, top };
     } else {
-      String baseSubstring = base.substring(pos, pos + query.length());
+      String baseSubstring = base.substring(pos, Math.min(pos + query.length(), base.length()));
       System.out.println(String.format("Query %s doesn't match base substring %s (at position %d)", query, baseSubstring, pos));
       return null;
     }

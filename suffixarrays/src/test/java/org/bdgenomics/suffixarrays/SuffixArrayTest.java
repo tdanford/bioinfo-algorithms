@@ -84,13 +84,23 @@ public class SuffixArrayTest {
 
   @Test
   public void testRandomStrings() {
+    Random rand = new Random(12345L);
+    int N = 1000;
+    int templateLength = 100;
+    int queryLength = 3;
+    int numQueries = 20;
+    for(int i = 0; i < N; i++) {
+      testRandomString(rand, templateLength, queryLength, numQueries);
+    }
+  }
+
+  public void testRandomString(Random rand, int templateLength, int queryLength, int numQueries) {
     String alphabet = "ACGT";
-    int templateLength = 50, queryLength = 4;
-    String base = randomString(alphabet, templateLength);
+    String base = randomString(rand, alphabet, templateLength);
     SuffixArray array = new SuffixArray(base, alphabet);
 
-    for(int i = 0; i < 100; i++) {
-      String query = randomString(alphabet, queryLength);
+    for(int i = 0; i < numQueries; i++) {
+      String query = randomString(rand, alphabet, queryLength);
       Set<Integer> matches = array.findMatches(query);
 
       for(Integer m : matches) {
@@ -109,8 +119,7 @@ public class SuffixArrayTest {
   }
 
 
-  public static String randomString(String alphabet, int length) {
-    Random rand = new Random();
+  public static String randomString(Random rand, String alphabet, int length) {
     StringBuilder sb = new StringBuilder();
     for(int i = 0; i < length; i++) {
       int k = rand.nextInt(alphabet.length());
