@@ -3,13 +3,11 @@ package org.bdgenomics.suffixarrays;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.IntStream;
-import org.assertj.core.util.Preconditions;
 import org.junit.Test;
 
-public class SuffixArrayTest {
+public class SimpleSuffixArrayTest {
 
-  public static void printSuffixes(SuffixArray array) {
+  public static void printSuffixes(SimpleSuffixArray array) {
     int rank = 0;
     for(int i : array.suffixArray) {
       String suffix = array.base.substring(i) + "$";
@@ -34,7 +32,7 @@ public class SuffixArrayTest {
   }
 
   private void testNoMatch(String alphabet, String base, String query) {
-    SuffixArray array = new SuffixArray(base, alphabet);
+    SimpleSuffixArray array = new SimpleSuffixArray(base, alphabet);
 
     printSuffixes(array);
 
@@ -48,7 +46,7 @@ public class SuffixArrayTest {
   }
 
   private void testMatch(String alphabet, String base, String query, int position) {
-    SuffixArray array = new SuffixArray(base, alphabet);
+    SimpleSuffixArray array = new SimpleSuffixArray(base, alphabet);
 
     printSuffixes(array);
 
@@ -73,7 +71,7 @@ public class SuffixArrayTest {
   public void testSimpleSuffixArray() {
     String base = "abeacadabea";
     String alphabet = "abcde";
-    SuffixArray array = new SuffixArray(base, alphabet);
+    SimpleSuffixArray array = new SimpleSuffixArray(base, alphabet);
     assertThat(array.suffixArray)
       .containsOnly(11, 10, 7, 0, 3, 5, 8, 1, 4, 6, 9, 2);
 
@@ -97,7 +95,7 @@ public class SuffixArrayTest {
   public void testRandomString(Random rand, int templateLength, int queryLength, int numQueries) {
     String alphabet = "ACGT";
     String base = randomString(rand, alphabet, templateLength);
-    SuffixArray array = new SuffixArray(base, alphabet);
+    SimpleSuffixArray array = new SimpleSuffixArray(base, alphabet);
 
     for(int i = 0; i < numQueries; i++) {
       String query = randomString(rand, alphabet, queryLength);
