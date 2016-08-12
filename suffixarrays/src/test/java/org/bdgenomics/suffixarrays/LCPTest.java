@@ -15,5 +15,15 @@ public class LCPTest {
     assertThat(lcp.lcp).containsExactly(-1, 0, 1, 4, 1, 1, 0, 3, 0, 0, 0, 2);
   }
 
+  @Test
+  public void testBanana() {
+    String base = "banana";
+    String alphabet = "abn";
+    SimpleSuffixArray array = new SimpleSuffixArray(base, alphabet);
+    LCP lcp = new LCP(array);
+
+    assertThat(lcp.lcp).containsExactly(-1, 0, 1, 3, 0, 0, 2);
+  }
+
 
 }

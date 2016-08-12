@@ -2,19 +2,23 @@ package org.bdgenomics.suffixarrays;
 
 import java.util.*;
 import java.util.stream.IntStream;
+import com.google.common.base.Preconditions;
 
 public class SimpleSuffixArray implements SuffixArray {
 
   public final String base;
   public final ArrayList<Integer> suffixArray;
-
   public final String alphabet;
+
   private final Map<Character, Integer> alphabetOrder;
 
   public SimpleSuffixArray(String base, String alphabet) {
-    this.base = base;
+    Preconditions.checkNotNull(base);
+    Preconditions.checkNotNull(alphabet);
 
+    this.base = base;
     this.alphabet = alphabet;
+
     this.alphabetOrder = new TreeMap<>();
     for(int i = 0; i < alphabet.length(); i++) {
       char c = alphabet.charAt(i);
@@ -29,6 +33,8 @@ public class SimpleSuffixArray implements SuffixArray {
   public int suffix(int offset) { return suffixArray.get(offset); }
   public char base(int offset) { return base.charAt(offset); }
   public String alphabet() { return alphabet; }
+
+  public String baseString(int start, int end) { return base.substring(start, end); }
 
   private boolean matchesAt(String query, int position) {
     int i;
