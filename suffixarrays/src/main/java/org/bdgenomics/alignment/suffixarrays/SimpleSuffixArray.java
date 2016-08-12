@@ -1,4 +1,4 @@
-package org.bdgenomics.suffixarrays;
+package org.bdgenomics.alignment.suffixarrays;
 
 import java.util.*;
 import java.util.stream.IntStream;

@@ -1,7 +1,6 @@
-package org.bdgenomics.suffixarrays;
+package org.bdgenomics.alignment.suffixarrays;
 
-import static org.bdgenomics.suffixarrays.EqualityUtils.*;
-import static org.bdgenomics.suffixarrays.HashUtils.hash;
+import static org.bdgenomics.alignment.suffixarrays.HashUtils.hash;
 import com.google.common.base.Preconditions;
 
 /**
@@ -31,7 +30,7 @@ public class Hit {
   public boolean equals(Object o) {
     if(!(o instanceof Hit)) { return false; }
     Hit h = (Hit)o;
-    return eq(of(query, targetName, offset), to(h.query, h.targetName, h.offset));
+    return EqualityUtils.eq(EqualityUtils.of(query, targetName, offset), EqualityUtils.to(h.query, h.targetName, h.offset));
   }
 
   public String toString() { return String.format("%s:%d:%s", targetName, offset, query); }

@@ -1,6 +1,7 @@
-package org.bdgenomics.suffixarrays.random;
+package org.bdgenomics.alignment.random;
 
 import java.util.Random;
+import org.kohsuke.args4j.Option;
 import com.google.common.base.Preconditions;
 
 public class RandomStringGenerator {

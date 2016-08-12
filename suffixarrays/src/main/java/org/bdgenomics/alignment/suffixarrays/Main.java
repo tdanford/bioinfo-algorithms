@@ -1,4 +1,4 @@
-package org.bdgenomics.suffixarrays;
+package org.bdgenomics.alignment.suffixarrays;
 
 import java.io.*;
 
