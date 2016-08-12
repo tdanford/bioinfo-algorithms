@@ -6,7 +6,7 @@
     <version>7</version>
     <relativePath />
   </parent>
-  
+
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.bdgenomics</groupId>
   <artifactId>bioinfo-parent</artifactId>
@@ -27,11 +27,11 @@
     <utils.version>0.2.1</utils.version>
     <htsjdk.version>1.129</htsjdk.version>
   </properties>
-  
+
   <modules>
     <module>suffixarrays</module>
   </modules>
-  
+
   <licenses>
     <license>
       <name>Apache License</name>
@@ -283,9 +283,9 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-      <groupId>org.assertj</groupId>
-      <artifactId>assertj-core</artifactId>
-      <version>3.3.0</version>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>3.3.0</version>
       </dependency>
 
       <dependency>
@@ -325,10 +325,11 @@
       </dependency>
 
       <dependency>
-	<groupId>org.bdgenomics.avocado</groupId>
-	<artifactId>avocado-core</artifactId>
-	<version>${avocado.version}</version>
+        <groupId>org.bdgenomics.avocado</groupId>
+        <artifactId>avocado-core</artifactId>
+        <version>${avocado.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.bdgenomics.adam</groupId>
         <artifactId>adam-core_2.10</artifactId>
@@ -336,11 +337,13 @@
         <type>test-jar</type>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.bdgenomics.adam</groupId>
         <artifactId>adam-apis_2.10</artifactId>
         <version>${adam.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.bdgenomics.adam</groupId>
         <artifactId>adam-apis_2.10</artifactId>
@@ -348,6 +351,7 @@
         <type>test-jar</type>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.bdgenomics.utils</groupId>
         <artifactId>utils-misc_2.10</artifactId>
@@ -355,21 +359,25 @@
         <type>test-jar</type>
         <scope>test</scope>
       </dependency>
+
       <dependency>
         <groupId>org.bdgenomics.utils</groupId>
         <artifactId>utils-cli_2.10</artifactId>
         <version>${utils.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.bdgenomics.utils</groupId>
         <artifactId>utils-io_2.10</artifactId>
         <version>${utils.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.bdgenomics.utils</groupId>
         <artifactId>utils-metrics_2.10</artifactId>
         <version>${utils.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-client</artifactId>
@@ -402,6 +410,7 @@
           </exclusion>
         </exclusions>
       </dependency>
+
       <dependency>
         <groupId>org.apache.spark</groupId>
         <artifactId>spark-core_2.10</artifactId>
@@ -493,11 +502,13 @@
           </exclusion>
         </exclusions>
       </dependency>
+
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>14.0.1</version>
+        <version>19.0</version>
       </dependency>
+
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>

@@ -14,7 +14,7 @@
     <name>Suffix Arrays</name>
 
     <build>
-	<finalName>suffixarrays</finalName>
+        <finalName>suffixarrays</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -55,7 +55,6 @@
 
     <dependencies>
 
-        <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -63,12 +62,12 @@
             <scope>test</scope>
         </dependency>
 
-	<dependency>
-  		<groupId>org.assertj</groupId>
-		<artifactId>assertj-core</artifactId>
-		<version>3.3.0</version>
-		<scope>test</scope>
-	</dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.3.0</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
@@ -80,6 +79,11 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
 
     </dependencies>
