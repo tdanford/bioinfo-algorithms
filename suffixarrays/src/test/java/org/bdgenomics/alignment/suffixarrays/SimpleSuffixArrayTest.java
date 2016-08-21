@@ -1,5 +1,6 @@
 package org.bdgenomics.alignment.suffixarrays;
 
+import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Random;
 import java.util.Set;
@@ -36,7 +37,9 @@ public class SimpleSuffixArrayTest {
 
     printSuffixes(array);
 
-    assertThat(array.findMatches(query))
+    Searcher searcher = new Searcher("test", array);
+
+    assertThat(searcher.search(query))
       .as(String.format("Query string \"%s\" should have no matches in suffix array", query))
       .isEmpty();
 
@@ -50,7 +53,9 @@ public class SimpleSuffixArrayTest {
 
     printSuffixes(array);
 
-    assertThat(array.findMatches(query))
+    Searcher searcher = new Searcher("test", array);
+
+    assertThat(searcher.search(query).map(h -> h.offset))
       .as(String.format("Query string \"%s\" doesn't have match position %d in suffix array", query, position))
       .contains(position);
 
@@ -75,9 +80,11 @@ public class SimpleSuffixArrayTest {
     assertThat(array.suffixArray)
       .containsOnly(11, 10, 7, 0, 3, 5, 8, 1, 4, 6, 9, 2);
 
-    assertThat(array.findMatches("bea")).containsOnly(8, 1);
-    assertThat(array.findMatches("acad")).containsOnly(3);
-    assertThat(array.findMatches("a")).containsOnly(0, 3, 5, 7, 10);
+    Searcher searcher = new Searcher("test", array);
+
+    assertThat(searcher.search("bea").map(h -> h.offset)).containsOnly(8, 1);
+    assertThat(searcher.search("acad").map(h -> h.offset)).containsOnly(3);
+    assertThat(searcher.search("a").map(h -> h.offset)).containsOnly(0, 3, 5, 7, 10);
   }
 
   @Test
@@ -96,10 +103,13 @@ public class SimpleSuffixArrayTest {
     String alphabet = "ACGT";
     String base = randomString(rand, alphabet, templateLength);
     SimpleSuffixArray array = new SimpleSuffixArray(base, alphabet);
+    Searcher searcher = new Searcher("test", array);
+
+    //printSuffixes(array);
 
     for(int i = 0; i < numQueries; i++) {
       String query = randomString(rand, alphabet, queryLength);
-      Set<Integer> matches = array.findMatches(query);
+      Set<Integer> matches = searcher.search(query).map(h -> h.offset).collect(toSet());
 
       for(Integer m : matches) {
         assertThat(query)
