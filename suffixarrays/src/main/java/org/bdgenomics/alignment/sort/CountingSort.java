@@ -1,9 +1,6 @@
 package org.bdgenomics.alignment.sort;
 
-import static java.util.stream.Collectors.toList;
-import java.util.Arrays;
 import java.util.function.Function;
-import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +15,6 @@ public class CountingSort<T> {
                    final Function<T, Integer> keyFunc,
                    final int numKeys) {
 
-    LOG.debug("Input: {}", Arrays.asList(values));
-
     Integer[] counts = new Integer[numKeys];
     for(int i = 0; i < counts.length; i++) {
       counts[i] = 0;
@@ -29,16 +24,12 @@ public class CountingSort<T> {
       counts[keyFunc.apply(values[i])] += 1;
     }
 
-    LOG.debug("Counts : {}", Arrays.asList(counts));
-
     int sum = 0;
     for(int i = 0; i < counts.length; i++) {
       final int tmp = counts[i];
       counts[i] = sum;
       sum += tmp;
     }
-
-    LOG.debug("Summed : {}", Arrays.asList(counts));
 
     for(int i = end-1; i >= start; i--) {
       T val = values[i];
@@ -60,8 +51,6 @@ public class CountingSort<T> {
         values[i] = val;
       }
     }
-
-    LOG.debug("Final: {}", Arrays.asList(values));
   }
 
   private void swap(final T[] values, final int i1, final int i2) {
