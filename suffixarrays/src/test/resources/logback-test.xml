@@ -18,6 +18,6 @@
   </root>
 
   <logger name="org.bdgenomics"> <!-- default tamr logging to INFO  -->
-    <level value="debug"/>
+    <level value="info"/>
   </logger>
 </configuration>
