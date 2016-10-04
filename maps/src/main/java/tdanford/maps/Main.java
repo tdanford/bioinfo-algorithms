@@ -1,6 +1,8 @@
 package tdanford.maps;
 
 import static java.util.stream.Collectors.toList;
+import static tdanford.maps.Paintable.noRegenerate;
+import static tdanford.maps.Paintable.withColor;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -15,12 +17,14 @@ public class Main {
         final int N = 200;
         final int maxX = 1000, maxY = 1000;
         final Sites sites = new Sites(() -> IntStream.range(0, N).mapToObj(i -> Point.random(maxX, maxY)).collect(toList()));
-        final Voronoi voronoi = new Voronoi(new Delaunay(sites));
+        final Delaunay delaunay = new Delaunay(sites);
+        final Voronoi voronoi = new Voronoi(delaunay);
         voronoi.regenerate();
 
         final Viewer v = new Viewer(maxX, maxY);
         v.addPaintable(voronoi);
-        v.addPaintable(new Paintable.WithColor(Color.red, sites));
+        //v.addPaintable(withColor(new Color(0, 0, 255, 50), noRegenerate(delaunay)));
+        v.addPaintable(withColor(Color.red, noRegenerate(sites)));
 
         v.makeVisible();
     }

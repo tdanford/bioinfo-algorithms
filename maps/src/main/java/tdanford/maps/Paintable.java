@@ -6,6 +6,28 @@ public interface Paintable {
     void paint(Graphics2D g, int maxX, int maxY, int x1, int y1, int x2, int y2);
     void regenerate();
 
+    static Paintable withColor(Color c, Paintable p) {
+        return new WithColor(c, p);
+    }
+
+    static Paintable noRegenerate(Paintable p) {
+        return new NoRegenerate(p);
+    }
+
+    class NoRegenerate implements Paintable {
+        private Paintable paintable;
+        public NoRegenerate(Paintable p) { this.paintable = p;}
+
+        @Override
+        public void paint(Graphics2D g, int maxX, int maxY, int x1, int y1, int x2, int y2) {
+            paintable.paint(g, maxX, maxY, x1, y1, x2, y2);
+        }
+
+        @Override
+        public void regenerate() {
+        }
+    }
+
     class WithColor implements Paintable {
         private Color color;
         private Paintable paintable;
@@ -25,7 +47,7 @@ public interface Paintable {
 
         @Override
         public void regenerate() {
-            // max the regeneration
+            paintable.regenerate();
         }
     }
 }

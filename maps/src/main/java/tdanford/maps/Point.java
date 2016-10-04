@@ -27,11 +27,19 @@ public class Point implements Comparable<Point> {
     }
 
     public void paint(Graphics2D g, int maxX, int maxY, int x1, int y1, int w, int h) {
+        paint(g, maxX, maxY, x1, y1, w, h, null);
+    }
+
+    public void paint(Graphics2D g, int maxX, int maxY, int x1, int y1, int w, int h, String label) {
         int diam = RADIUS * 2;
         double xf = (double)x / maxX, yf = (double)y / maxY;
         int x = x1 + (int)Math.round(xf * w);
         int y = y1 + (int)Math.round(yf * h);
         g.fillOval(x-RADIUS, y-RADIUS, diam, diam);
+
+        if(label != null) {
+            g.drawString(label, x + RADIUS, y - RADIUS);
+        }
     }
 
     public String toString() { return String.format("%d,%d", x, y); }

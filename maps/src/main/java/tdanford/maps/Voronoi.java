@@ -1,5 +1,6 @@
 package tdanford.maps;
 
+import static tdanford.maps.Triangle.area2;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,11 +16,13 @@ public class Voronoi implements Paintable {
     private Delaunay delaunay;
     private ArrayList<Point> points;
     private Set<Edge> edges;
+    private Set<Ray> rays;
 
     public Voronoi(Delaunay del) {
         this.delaunay = del;
         this.edges = new HashSet<>();
         this.points = new ArrayList<>();
+        this.rays = new HashSet<>();
     }
 
     @Override
@@ -30,9 +33,14 @@ public class Voronoi implements Paintable {
         for(Edge e : edges) {
             e.paint(g, maxX, maxY, x1, y1, w, h);
         }
+        for(Ray r : rays) {
+            r.paint(g, maxX, maxY, x1, y1, w, h);
+        }
+        /*
         for(Point p : points) {
             p.paint(g, maxX, maxY, x1, y1, w, h);
         }
+        */
     }
 
     @Override
@@ -40,6 +48,7 @@ public class Voronoi implements Paintable {
         System.out.println("Regenerating voronoi");
         points.clear();
         edges.clear();
+        rays.clear();
         delaunay.regenerate();
         rebuildVoronoi();
         System.out.println(String.format("Rebuilt %d points, %d edges in Voronoi", points.size(), edges.size()));
@@ -78,7 +87,21 @@ public class Voronoi implements Paintable {
                         }
                     }
                 } else {
-                    // add a ray to infinity
+                    Point midpoint = en.midpoint();
+                    Point otherPointOfTriangle = t.oppositePoint(edge);
+
+                    boolean centerIsInsideDelaunay = true;
+                    if(area2(edge.p1, edge.p2, otherPointOfTriangle) >= 0) {
+                        centerIsInsideDelaunay = area2(edge.p1, edge.p2, center) >= 0;
+                    } else {
+                        centerIsInsideDelaunay = area2(edge.p2, edge.p1, center) >= 0;
+                    }
+
+                    if(centerIsInsideDelaunay) {
+                        rays.add(new Ray(center, midpoint));
+                    } else {
+                        rays.add(new Ray(center, midpoint).flip());
+                    }
                 }
             });
         }

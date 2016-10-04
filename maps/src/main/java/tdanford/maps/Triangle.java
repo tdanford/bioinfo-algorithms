@@ -57,4 +57,22 @@ public class Triangle {
     public boolean collinear() { return area2() == 0; }
 
     public Stream<Edge> edges() { return Stream.of(new Edge(p1, p2), new Edge(p2, p3), new Edge(p3, p1)); }
+
+    public Point oppositePoint(Edge edge) {
+        if(p1.equals(edge.p1)) {
+            if(p2.equals(edge.p2)) {
+                return p3;
+            } else {
+                return p2;
+            }
+        } else if (p1.equals(edge.p2)) {
+            if(p2.equals(edge.p1)) {
+                return p3;
+            } else {
+                return p2;
+            }
+        } else {
+            return p1;
+        }
+    }
 }

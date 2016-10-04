@@ -73,5 +73,11 @@ public class Edge implements Comparable<Edge> {
         return xor(left(a, b, c), left(a, b, d)) &&
             xor(left(c, d, a), left(c, d, b));
     }
+
+    public Point midpoint() {
+        int x = (p1.x + p2.x) / 2;
+        int y = (p1.y + p2.y) / 2;
+        return new Point(x, y);
+    }
 }
 

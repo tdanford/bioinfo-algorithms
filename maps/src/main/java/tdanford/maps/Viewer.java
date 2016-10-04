@@ -78,9 +78,13 @@ public class Viewer extends JFrame {
             g.setColor(Color.white);
             g.fillRect(0, 0, w, h);
 
+            int x1 = 100, y1 = 100, x2 = w - x1, y2 = h - y1;
+
             g.setColor(Color.black);
+            g.drawRect(x1, y1, x2-x1, y2-y1);
+
             for(Paintable p : paintables) {
-                p.paint((Graphics2D)g, maxX, maxY, 0, 0, w, h);
+                p.paint((Graphics2D)g, maxX, maxY, x1, y1, x2, y2);
             }
         }
     }
