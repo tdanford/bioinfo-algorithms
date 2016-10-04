@@ -21,7 +21,8 @@ public class Sites implements Paintable, Supplier<Collection<Point>> {
         int w = x2 - x1, h = y2 - y1;
         int i = 0;
         for(Point p : sites) {
-            p.paint(g, maxX, maxY, x1, y1, w, h, String.valueOf(i++));
+            p.paint(g, maxX, maxY, x1, y1, w, h, null);
+            i++;
         }
     }
 

@@ -1,8 +1,6 @@
 package tdanford.maps;
 
 import static java.util.stream.Collectors.toList;
-import static tdanford.maps.Paintable.noRegenerate;
-import static tdanford.maps.Paintable.withColor;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -23,8 +21,8 @@ public class Main {
 
         final Viewer v = new Viewer(maxX, maxY);
         v.addPaintable(voronoi);
-        //v.addPaintable(withColor(new Color(0, 0, 255, 50), noRegenerate(delaunay)));
-        v.addPaintable(withColor(Color.red, noRegenerate(sites)));
+        //v.addPaintable(new Paintable.WithColor(new Color(0, 0, 255, 50), new Paintable.NoRegenerate(delaunay)));
+        v.addPaintable(new Paintable.WithColor(Color.red, new Paintable.NoRegenerate(sites)));
 
         v.makeVisible();
     }

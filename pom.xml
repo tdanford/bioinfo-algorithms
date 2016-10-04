@@ -30,6 +30,7 @@
 
   <modules>
     <module>suffixarrays</module>
+    <module>maps</module>
   </modules>
 
   <licenses>

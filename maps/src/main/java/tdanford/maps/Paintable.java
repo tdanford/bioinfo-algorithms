@@ -3,16 +3,9 @@ package tdanford.maps;
 import java.awt.*;
 
 public interface Paintable {
+
     void paint(Graphics2D g, int maxX, int maxY, int x1, int y1, int x2, int y2);
     void regenerate();
-
-    static Paintable withColor(Color c, Paintable p) {
-        return new WithColor(c, p);
-    }
-
-    static Paintable noRegenerate(Paintable p) {
-        return new NoRegenerate(p);
-    }
 
     class NoRegenerate implements Paintable {
         private Paintable paintable;
