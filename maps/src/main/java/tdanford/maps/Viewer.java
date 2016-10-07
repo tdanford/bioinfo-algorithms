@@ -4,8 +4,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Viewer extends JFrame {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Viewer.class);
 
     private final ArrayList<Paintable> paintables;
     private final DrawingPanel drawingPanel;
@@ -29,16 +33,21 @@ public class Viewer extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public void regenerate() {
+        LOG.info("regenerate() : {} paintables", paintables.size());
+        for(final Paintable p : paintables) {
+            p.regenerate();
+        }
+        drawingPanel.repaint();
+    }
+
     public Action regenerateAction() {
         return new AbstractAction("Regenerate") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(final Paintable p : paintables) {
-                    SwingUtilities.invokeLater(() -> {
-                        p.regenerate();
-                        drawingPanel.repaint();
-                    });
-                }
+                SwingUtilities.invokeLater(() -> {
+                    regenerate();
+                });
             }
         };
     }
@@ -83,8 +92,11 @@ public class Viewer extends JFrame {
             g.setColor(Color.black);
             g.drawRect(x1, y1, x2-x1, y2-y1);
 
+            final PhysicalViewport physical = new PhysicalViewport(x1, y1, x2, y2);
+            final LogicalViewport logical = new LogicalViewport(maxX, maxY);
+
             for(Paintable p : paintables) {
-                p.paint((Graphics2D)g, maxX, maxY, x1, y1, x2, y2);
+                p.paint((Graphics2D)g, logical, physical);
             }
         }
     }

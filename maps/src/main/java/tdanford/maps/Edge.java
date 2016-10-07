@@ -5,7 +5,7 @@ import static tdanford.maps.Triangle.collinear;
 import java.awt.*;
 import java.util.Objects;
 
-public class Edge implements Comparable<Edge> {
+public class Edge implements Comparable<Edge>, GeometricPrimitive {
 
     public final Point p1, p2;
 
@@ -51,16 +51,6 @@ public class Edge implements Comparable<Edge> {
         return (a || b) && !(a && b);
     }
 
-    public void paint(Graphics2D g, int maxX, int maxY, int x1, int y1, int w, int h) {
-        double x1f = (double)p1.x / maxX, y1f = (double)p1.y / maxY;
-        double x2f = (double)p2.x / maxX, y2f = (double)p2.y / maxY;
-        int px1 = x1 + (int)Math.round(x1f * w);
-        int py1 = y1 + (int)Math.round(y1f * h);
-        int px2 = x1 + (int)Math.round(x2f * w);
-        int py2 = y1 + (int)Math.round(y2f * h);
-        g.drawLine(px1, py1, px2, py2);
-    }
-
     public boolean intersectProp(final Edge e) {
         final Point a = p1, b = p2, c = e.p1, d = e.p2;
         if(collinear(a, b, c) ||
@@ -78,6 +68,13 @@ public class Edge implements Comparable<Edge> {
         int x = (p1.x + p2.x) / 2;
         int y = (p1.y + p2.y) / 2;
         return new Point(x, y);
+    }
+
+    @Override
+    public void paint(Graphics2D g, LogicalViewport logical, PhysicalViewport physical, String label) {
+        int px1 = x(p1.x, logical, physical), py1 = y(p1.y, logical, physical);
+        int px2 = x(p2.x, logical, physical), py2 = y(p2.y, logical, physical);
+        g.drawLine(px1, py1, px2, py2);
     }
 }
 

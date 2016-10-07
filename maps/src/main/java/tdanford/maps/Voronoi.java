@@ -26,19 +26,18 @@ public class Voronoi implements Paintable {
     }
 
     @Override
-    public void paint(Graphics2D g, int maxX, int maxY, int x1, int y1, int x2, int y2) {
-        int w = x2 - x1, h = y2 - y1;
-        g.setStroke(new BasicStroke(2.0f));
+    public void paint(Graphics2D g, final LogicalViewport logical, final PhysicalViewport physical, final String label) {
+        //g.setStroke(new BasicStroke(2.0f));
 
         for(Edge e : edges) {
-            e.paint(g, maxX, maxY, x1, y1, w, h);
+            e.paint(g, logical, physical);
         }
         for(Ray r : rays) {
-            r.paint(g, maxX, maxY, x1, y1, w, h);
+            r.paint(g, logical, physical);
         }
         /*
         for(Point p : points) {
-            p.paint(g, maxX, maxY, x1, y1, w, h);
+            p.paint(g, logical, physical);
         }
         */
     }
@@ -49,7 +48,6 @@ public class Voronoi implements Paintable {
         points.clear();
         edges.clear();
         rays.clear();
-        delaunay.regenerate();
         rebuildVoronoi();
         System.out.println(String.format("Rebuilt %d points, %d edges in Voronoi", points.size(), edges.size()));
     }

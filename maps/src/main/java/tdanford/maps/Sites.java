@@ -5,8 +5,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class Sites implements Paintable, Supplier<Collection<Point>> {
+public class Sites implements Paintable, Supplier<Collection<Point>>, GeometricPrimitive {
+
+    private static Logger LOG = LoggerFactory.getLogger(Sites.class);
 
     private final ArrayList<Point> sites;
     private final Supplier<Collection<Point>> siteGenerator;
@@ -17,23 +21,24 @@ public class Sites implements Paintable, Supplier<Collection<Point>> {
     }
 
     @Override
-    public void paint(Graphics2D g, int maxX, int maxY, int x1, int y1, int x2, int y2) {
-        int w = x2 - x1, h = y2 - y1;
-        int i = 0;
-        for(Point p : sites) {
-            p.paint(g, maxX, maxY, x1, y1, w, h, null);
-            i++;
-        }
-    }
-
-    @Override
     public void regenerate() {
+        LOG.info("regenerate()");
         sites.clear();
         sites.addAll(siteGenerator.get());
+        LOG.info("Generated {} sites", sites.size());
     }
 
     @Override
     public Collection<Point> get() {
         return sites;
+    }
+
+    @Override
+    public void paint(final Graphics2D g, final LogicalViewport logical, final PhysicalViewport physical, final String label) {
+        new GeometricPrimitive.Aggregate(sites).paint(g, logical, physical);
+    }
+
+    public int size() {
+        return sites.size();
     }
 }

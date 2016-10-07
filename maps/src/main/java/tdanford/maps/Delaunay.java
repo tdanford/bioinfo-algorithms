@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -38,47 +37,33 @@ public class Delaunay implements Paintable {
         calculate();
     }
 
-    public void paint(Graphics2D g, int mx, int my, int x1, int y1, int x2, int y2) {
-        int w = x2 - x1, h = y2 - y1;
+    public void paint(Graphics2D g, final LogicalViewport logical, final PhysicalViewport physical, final String label) {
         g.setStroke(new BasicStroke(2.0f));
 
         for(IndexedTriangle t : triangles) {
-            drawEdge(g, t.i, t.j, mx, my, x1, y1, w, h);
-            drawEdge(g, t.j, t.k, mx, my, x1, y1, w, h);
-            drawEdge(g, t.k, t.i, mx, my, x1, y1, w, h);
+            drawEdge(g, t.i, t.j, logical, physical);
+            drawEdge(g, t.j, t.k, logical, physical);
+            drawEdge(g, t.k, t.i, logical, physical);
 
-            drawSite(g, t.i, mx, my, x1, y1, w, h);
-            drawSite(g, t.j, mx, my, x1, y1, w, h);
-            drawSite(g, t.k, mx, my, x1, y1, w, h);
+            sites.get(t.i).paint(g, logical, physical);
+            sites.get(t.j).paint(g, logical, physical);
+            sites.get(t.k).paint(g, logical, physical);
         }
     }
 
     @Override
     public void regenerate() {
-        siteSupplier.regenerate();
         setNewSites(siteSupplier.get());
     }
 
-    private void drawSite(Graphics2D g, int i, int mx, int my, int x1, int y1, int w, int h) {
-        Point p1 = sites.get(i);
-        int radius = 3;
-        int diam = radius * 2;
-
-        int p1x = x1 + (int)Math.round((double)w * (double)p1.x / (double)mx);
-        int p1y = y1 + (int)Math.round((double)h * (double)p1.y / (double)my);
-
-        g.fillOval(p1x-radius, p1y-radius, diam, diam);
-        g.drawString(String.valueOf(i), p1x + radius, p1y - radius);
-    }
-
-    private void drawEdge(Graphics2D g, int i, int j, int mx, int my, int x1, int y1, int w, int h) {
+    private void drawEdge(Graphics2D g, final int i, final int j, final LogicalViewport logical, final PhysicalViewport physical) {
         Point p1 = sites.get(i), p2 = sites.get(j);
 
-        int p1x = x1 + (int)Math.round((double)w * (double)p1.x / (double)mx);
-        int p1y = y1 + (int)Math.round((double)h * (double)p1.y / (double)my);
+        int p1x = x(p1.x, logical, physical);
+        int p1y = y(p1.y, logical, physical);
 
-        int p2x = x1 + (int)Math.round((double)w * (double)p2.x / (double)mx);
-        int p2y = y1 + (int)Math.round((double)h * (double)p2.y / (double)my);
+        int p2x = x(p2.x, logical, physical);
+        int p2y = y(p2.y, logical, physical);
 
         g.drawLine(p1x, p1y, p2x, p2y);
     }

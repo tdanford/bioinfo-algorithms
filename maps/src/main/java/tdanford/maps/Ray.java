@@ -5,7 +5,7 @@ import static tdanford.maps.Triangle.collinear;
 import java.awt.*;
 import java.util.Objects;
 
-public class Ray implements Comparable<Ray> {
+public class Ray implements Comparable<Ray>, GeometricPrimitive {
 
     public final Point p1, p2;
 
@@ -35,21 +35,19 @@ public class Ray implements Comparable<Ray> {
         return p2.compareTo(e.p2);
     }
 
-    public void paint(Graphics2D g, int maxX, int maxY, int x1, int y1, int w, int h) {
-        double x1f = (double)p1.x / maxX, y1f = (double)p1.y / maxY;
-        double x2f = (double)p2.x / maxX, y2f = (double)p2.y / maxY;
-        int px1 = x1 + (int)Math.round(x1f * w);
-        int py1 = y1 + (int)Math.round(y1f * h);
-        int px2 = x1 + (int)Math.round(x2f * w);
-        int py2 = y1 + (int)Math.round(y2f * h);
+    @Override
+    public void paint(Graphics2D g, LogicalViewport logical, PhysicalViewport physical, String label) {
+        int px1 = x(p1.x, logical, physical), py1 = y(p1.y, logical, physical);
+        int px2 = x(p2.x, logical, physical), py2 = y(p2.y, logical, physical);
 
         int dx = px2 - px1, dy = py2 - py1;
         if(dx == 0 && dy == 0) {
             return;
         }
-        while((x1 <= px2 && px2 <= (x1 + w)) && (y1 <= py2 && py2 <= (y1 + h))) {
-            dx *= 2;
-            dy *= 2;
+
+        while(physical.contains(px2, py2)) {
+            //dx *= 2;
+            //dy *= 2;
             px2 += dx;
             py2 += dy;
         }
