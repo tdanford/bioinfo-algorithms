@@ -2,6 +2,7 @@ package tdanford.maps;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 public interface GeometricPrimitive {
@@ -25,6 +26,10 @@ public interface GeometricPrimitive {
     class Aggregate implements GeometricPrimitive {
 
         private final Collection<? extends GeometricPrimitive> primitives;
+
+        public Aggregate(GeometricPrimitive... gps) {
+            this(Arrays.asList(gps));
+        }
 
         public Aggregate(final Collection<? extends GeometricPrimitive> prims) {
             this.primitives = prims;

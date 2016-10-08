@@ -1,9 +1,21 @@
 package tdanford.maps;
 
+import java.awt.*;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-public class Triangle {
+/**
+ * An oriented Triangle.
+ *
+ * Triangle stores an <i>ordered</i> set of three points, and represents them as a
+ * Triangle.  The ordering is important because it determines the "direction" (clockwise
+ * or counter-clockwise) of the triangle and therefore the sign of its area, it's
+ * equality with other triangles, it's ordering with respect to other triangles, etc.
+ *
+ * Triangle also provides a basic set of operators (area2, left, and circleCenter) on
+ * groups of three points.
+ */
+public class Triangle implements Comparable<Triangle>, GeometricConnector {
 
     public final Point p1, p2, p3;
 
@@ -58,6 +70,15 @@ public class Triangle {
 
     public Stream<Edge> edges() { return Stream.of(new Edge(p1, p2), new Edge(p2, p3), new Edge(p3, p1)); }
 
+    /**
+     * Given an edge in the triangle, this returns the Point of the Triangle which is <i>not</i> a
+     * part of the edge.  Note that the ordering of the points in the Edge does not need to reflect
+     * the ordering of the points in the Triangle.
+     *
+     * @param edge And edge containing of the three points in the triangle
+     * @return The third point (if the Edge given is not a part of the triangle, then this method returns
+     *         an undefined point of the Triangle).
+     */
     public Point oppositePoint(Edge edge) {
         if(p1.equals(edge.p1)) {
             if(p2.equals(edge.p2)) {
@@ -74,5 +95,24 @@ public class Triangle {
         } else {
             return p1;
         }
+    }
+
+    @Override
+    public int compareTo(Triangle o) {
+        int c = p1.compareTo(o.p1);
+        if(c != 0) { return c; }
+        c = p2.compareTo(o.p2);
+        if(c != 0) { return c; }
+        return p3.compareTo(o.p3);
+    }
+
+    @Override
+    public Point[] connected() {
+        return new Point[] { p1, p2, p3 };
+    }
+
+    @Override
+    public void paint(Graphics2D g, LogicalViewport logical, PhysicalViewport physical, String label) {
+        new Aggregate(new Edge(p1, p2), new Edge(p2, p3), new Edge(p3, p1)).paint(g, logical, physical, label);
     }
 }

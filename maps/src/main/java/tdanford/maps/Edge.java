@@ -5,7 +5,7 @@ import static tdanford.maps.Triangle.collinear;
 import java.awt.*;
 import java.util.Objects;
 
-public class Edge implements Comparable<Edge>, GeometricPrimitive {
+public class Edge implements Comparable<Edge>, GeometricConnector {
 
     public final Point p1, p2;
 
@@ -13,6 +13,8 @@ public class Edge implements Comparable<Edge>, GeometricPrimitive {
         this.p1 = p1;
         this.p2 = p2;
     }
+
+    public Point[] connected() { return new Point[] { p1, p2 }; }
 
     public String toString() { return String.format("%s -> %s", p1, p2); }
 

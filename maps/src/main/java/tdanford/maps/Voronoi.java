@@ -10,8 +10,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
-public class Voronoi implements Paintable {
+public class Voronoi implements Paintable, Supplier<Stream<GeometricConnector>> {
 
     private Delaunay delaunay;
     private ArrayList<Point> points;
@@ -23,6 +24,11 @@ public class Voronoi implements Paintable {
         this.edges = new HashSet<>();
         this.points = new ArrayList<>();
         this.rays = new HashSet<>();
+    }
+
+    @Override
+    public Stream<GeometricConnector> get() {
+        return Stream.concat(edges.stream(), rays.stream());
     }
 
     @Override
@@ -104,4 +110,5 @@ public class Voronoi implements Paintable {
             });
         }
     }
+
 }

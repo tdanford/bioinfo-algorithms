@@ -31,13 +31,15 @@ public class Main {
         final Sites sites = new Sites(pointSupplier);
         final Delaunay delaunay = new Delaunay(sites);
         final Voronoi voronoi = new Voronoi(delaunay);
+        final Graph graph = new Graph(voronoi);
 
         final Viewer v = new Viewer(maxX, maxY);
         v.addPaintable(new WithColor(Color.red, sites));
         v.addPaintable(new WithColor(Color.green, new GrahamScan(sites)));
         v.addPaintable(new Invisible(delaunay));
         //v.addPaintable(new Paintable.WithColor(new Color(0, 0, 255, 50), delaunay));
-        v.addPaintable(voronoi);
+        v.addPaintable(new Invisible(voronoi));
+        v.addPaintable(new WithColor(Color.orange, graph));
 
         v.regenerate();
 

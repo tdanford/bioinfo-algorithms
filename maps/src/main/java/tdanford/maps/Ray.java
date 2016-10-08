@@ -5,7 +5,7 @@ import static tdanford.maps.Triangle.collinear;
 import java.awt.*;
 import java.util.Objects;
 
-public class Ray implements Comparable<Ray>, GeometricPrimitive {
+public class Ray implements Comparable<Ray>, GeometricConnector {
 
     public final Point p1, p2;
 
@@ -13,6 +13,8 @@ public class Ray implements Comparable<Ray>, GeometricPrimitive {
         this.p1 = p1;
         this.p2 = p2;
     }
+
+    public Point[] connected() { return new Point[] { p1 }; }
 
     public Ray flip() {
         int dx = p2.x - p1.x, dy = p2.y - p1.y;
