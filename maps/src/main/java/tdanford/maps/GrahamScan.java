@@ -1,45 +1,34 @@
 package tdanford.maps;
 
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 import static tdanford.maps.Triangle.area2;
-import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GrahamScan implements Paintable {
+public class GrahamScan {
 
-    public static Logger LOG = LoggerFactory.getLogger(GrahamScan.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GrahamScan.class);
 
-    private final Sites sites;
-    private final ArrayList<Point> hull;
+    private ArrayList<Point> hull;
 
-    public GrahamScan(final Sites sites) {
-        this.sites = sites;
-        this.hull = new ArrayList<>();
+    public GrahamScan(Point... ps) {
+        hull = new ArrayList<>();
+        scan(ps);
     }
 
-    @Override
-    public void regenerate() {
-        //sites.regenerate();
-        hull.clear();
+    public ArrayList<Point> hull() { return hull; }
 
-        Point[] siteArray = sites.get().toArray(new Point[sites.size()]);
-        if(siteArray.length >= 3) {
-            findLowest(siteArray);
-            Point p0 = siteArray[0];
-            Arrays.sort(siteArray, 1, siteArray.length, new GrahamPointComparator(p0));
+    private void scan(Point[] siteArray) {
+        findLowest(siteArray);
 
-            List<Integer> hullIndices = graham(siteArray);
-            for (Integer i : hullIndices) {
-                hull.add(siteArray[i]);
-            }
+        Point p0 = siteArray[0];
+        Arrays.sort(siteArray, 1, siteArray.length, new GrahamPointComparator(p0));
+
+        List<Integer> hullIndices = graham(siteArray);
+        for (Integer i : hullIndices) {
+            hull.add(siteArray[i]);
         }
     }
 
@@ -76,7 +65,7 @@ public class GrahamScan implements Paintable {
         return stack;
     }
 
-    private void findLowest(Point[] siteArray) {
+    public static void findLowest(Point[] siteArray) {
         int lowest = 0;
         for (int i = 1; i < siteArray.length; i++) {
             if (siteArray[i].y < siteArray[lowest].y ||
@@ -90,12 +79,5 @@ public class GrahamScan implements Paintable {
         Point tmp = siteArray[lowest];
         siteArray[lowest] = siteArray[0];
         siteArray[0] = tmp;
-    }
-
-    @Override
-    public void paint(Graphics2D g, LogicalViewport logical, PhysicalViewport physical, String label) {
-        final int N = hull.size();
-        new Aggregate(IntStream.range(0, N).mapToObj(i -> new Edge(hull.get(i), hull.get((i + 1) % N))).collect(toList()))
-            .paint(g, logical, physical);
     }
 }

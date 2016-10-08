@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Random;
 import org.junit.Test;
 
-public class GrahamScanTest {
+public class ConvexHullTest {
 
     public static Point point(final int x, final int y) { return new Point(x, y); }
 
@@ -41,7 +41,7 @@ public class GrahamScanTest {
         Collections.shuffle(lst, rand);
 
         Sites s = new Sites(() -> lst);
-        GrahamScan scan = new GrahamScan(s);
+        ConvexHull scan = new ConvexHull(s);
 
         s.regenerate();
         scan.regenerate();

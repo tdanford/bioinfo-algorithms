@@ -3,10 +3,6 @@ package tdanford.maps;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
@@ -35,7 +31,7 @@ public class Main {
 
         final Viewer v = new Viewer(maxX, maxY);
         v.addPaintable(new WithColor(Color.red, sites));
-        v.addPaintable(new WithColor(Color.green, new GrahamScan(sites)));
+        v.addPaintable(new WithColor(Color.green, new ConvexHull(sites)));
         v.addPaintable(new Invisible(delaunay));
         //v.addPaintable(new Paintable.WithColor(new Color(0, 0, 255, 50), delaunay));
         v.addPaintable(new Invisible(voronoi));
