@@ -2,6 +2,8 @@ package tdanford.maps;
 
 import static tdanford.maps.Triangle.area2;
 import static tdanford.maps.Triangle.collinear;
+import static tdanford.maps.GeometricPrimitive.x;
+import static tdanford.maps.GeometricPrimitive.y;
 import java.awt.*;
 import java.util.Objects;
 
@@ -55,6 +57,24 @@ public class Ray implements Comparable<Ray>, GeometricConnector {
         }
 
         g.drawLine(px1, py1, px2, py2);
+        /*
+        final Point b = physical.boundaryIntersection(new Point(px1, py1), new Point(px2, py2));
+        if(b != null) {
+            g.drawLine(px1, py1, b.x, b.y);
+            Color c = g.getColor();
+            g.setColor(Color.orange);
+            g.fillOval(px1-3, py1-3, 6, 6);
+            g.fillOval(b.x-2, b.y-2, 4, 4);
+            g.setColor(c);
+        } else {
+            g.drawLine(px1, py1, px2, py2);
+            Color c = g.getColor();
+            g.setColor(Color.blue);
+            g.fillOval(px1-3, py1-3, 6, 6);
+            g.fillOval(px2-3, py2-3, 6, 6);
+            g.setColor(c);
+        }
+        */
     }
 }
 
