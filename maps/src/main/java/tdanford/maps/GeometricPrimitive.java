@@ -13,17 +13,17 @@ public interface GeometricPrimitive {
         paint(g, logical, physical, null);
     }
 
-    static int x(final int x, final LogicalViewport logical, final PhysicalViewport physical) {
+    default int x(final int x, final LogicalViewport logical, final PhysicalViewport physical) {
         double xf = (double)x / (double)logical.width;
         return physical.x1 + (int)Math.round(xf * (double)physical.width());
     }
 
-    static int y(final int y, final LogicalViewport logical, final PhysicalViewport physical) {
+    default int y(final int y, final LogicalViewport logical, final PhysicalViewport physical) {
         double yf = (double)y / (double)logical.height;
         return physical.y1 + (int)Math.round(yf * (double)physical.height());
     }
 
-    static void drawPoint(final Graphics2D g, final Point p, final int radius, final String label) {
+    default void drawPoint(final Graphics2D g, final Point p, final int radius, final String label) {
         final int diam = radius * 2;
         g.fillOval(p.x-radius, p.y-radius, diam, diam);
         if(label != null) {
@@ -31,7 +31,7 @@ public interface GeometricPrimitive {
         }
     }
 
-    static void drawEdge(final Graphics2D g, final Edge e) {
+    default void drawEdge(final Graphics2D g, final Edge e) {
         g.drawLine(e.p1.x, e.p1.y, e.p2.x, e.p2.y);
     }
 

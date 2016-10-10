@@ -2,8 +2,6 @@ package tdanford.maps;
 
 import static tdanford.maps.Triangle.area2;
 import static tdanford.maps.Triangle.collinear;
-import static tdanford.maps.GeometricPrimitive.x;
-import static tdanford.maps.GeometricPrimitive.y;
 import java.awt.*;
 import java.util.Objects;
 
@@ -14,6 +12,12 @@ public class Ray implements Comparable<Ray>, GeometricConnector {
     public Ray(final Point p1, final Point p2) {
         this.p1 = p1;
         this.p2 = p2;
+    }
+
+    public Point interpolate(final double t) {
+        return new Point(
+            p1.x + (int)Math.round(t * (p2.x - p1.x)),
+            p1.y + (int)Math.round(t * (p2.y - p1.y)));
     }
 
     public Point[] connected() { return new Point[] { p1 }; }

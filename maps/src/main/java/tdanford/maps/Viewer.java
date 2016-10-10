@@ -87,7 +87,9 @@ public class Viewer extends JFrame {
             g.setColor(Color.white);
             g.fillRect(0, 0, w, h);
 
-            int x1 = 100, y1 = 100, x2 = w - x1, y2 = h - y1;
+            int boundary = 25;
+
+            int x1 = boundary, y1 = boundary, x2 = w - boundary, y2 = h - boundary;
             g.setClip(x1, y1, x2-x1, y2-y1);
 
             g.setColor(Color.black);

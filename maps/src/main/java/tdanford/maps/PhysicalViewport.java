@@ -65,13 +65,13 @@ public class PhysicalViewport {
 
     public Point project(final LogicalViewport logical, final Point p) {
         return new Point(
-            GeometricPrimitive.x(p.x, logical, this),
-            GeometricPrimitive.y(p.y, logical, this));
+            p.x(p.x, logical, this),
+            p.y(p.y, logical, this));
     }
 
     public Function<Point, Point> projection(final LogicalViewport logical) {
         return point -> new Point(
-            GeometricPrimitive.x(point.x, logical, this),
-            GeometricPrimitive.y(point.y, logical, this));
+            point.x(point.x, logical, this),
+            point.y(point.y, logical, this));
     }
 }

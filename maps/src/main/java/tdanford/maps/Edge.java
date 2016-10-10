@@ -1,8 +1,6 @@
 package tdanford.maps;
 
 import static tdanford.maps.Triangle.area2;
-import static tdanford.maps.GeometricPrimitive.x;
-import static tdanford.maps.GeometricPrimitive.y;
 import static tdanford.maps.Triangle.collinear;
 import java.awt.*;
 import java.util.Objects;

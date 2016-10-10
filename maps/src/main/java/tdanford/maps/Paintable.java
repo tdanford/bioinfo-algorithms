@@ -1,10 +1,30 @@
 package tdanford.maps;
 
 import java.awt.*;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public interface Paintable extends GeometricPrimitive {
 
     void regenerate();
+
+    class All<T extends GeometricPrimitive> implements Paintable {
+
+        private Supplier<Stream<T>> prims;
+
+        public All(Supplier<Stream<T>> prims) {
+            this.prims = prims;
+        }
+
+        @Override
+        public void regenerate() {
+        }
+
+        @Override
+        public void paint(Graphics2D g, LogicalViewport logical, PhysicalViewport physical, String label) {
+            prims.get().forEach(p -> p.paint(g, logical, physical));
+        }
+    }
 
     /**
      * Lifts a GeometricPrimitive into a Paintable
@@ -84,6 +104,29 @@ public interface Paintable extends GeometricPrimitive {
             g.setColor(color);
             paintable.paint(g, logical, physical, label);
             g.setColor(c);
+        }
+    }
+
+    class WithStroke implements Paintable {
+        private Stroke stroke;
+        private Paintable paintable;
+
+        public WithStroke(Stroke c, Paintable p) {
+            this.stroke = c;
+            this.paintable = p;
+        }
+
+        @Override
+        public void regenerate() {
+            paintable.regenerate();
+        }
+
+        @Override
+        public void paint(Graphics2D g, LogicalViewport logical, PhysicalViewport physical, String label) {
+            Stroke old = g.getStroke();
+            g.setStroke(stroke);
+            paintable.paint(g, logical, physical, label);
+            g.setStroke(old);
         }
     }
 }

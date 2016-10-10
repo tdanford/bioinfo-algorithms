@@ -39,4 +39,8 @@ public class LogicalViewport {
     public Triangle randomTriangle(Random r) {
         return new Triangle(randomPoint(r), randomPoint(r), randomPoint(r));
     }
+
+    public boolean contains(Point s) {
+        return s.x >= 0 && s.y >= 0 && s.x < width && s.y < height;
+    }
 }

@@ -15,6 +15,18 @@ public class Polygon implements GeometricConnector {
         return new GrahamScan(points).hull().toArray(new Point[0]);
     }
 
+    public Point center() {
+        double fraction = 1.0 / (double)points.length;
+        int x = 0, y = 0;
+
+        for(Point p : points) {
+            x += (int)Math.round(fraction * p.x);
+            y += (int)Math.round(fraction * p.y);
+        }
+
+        return new Point(x, y);
+    }
+
     @Override
     public Point[] connected() {
         return points;

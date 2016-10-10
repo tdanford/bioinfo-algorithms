@@ -4,9 +4,6 @@ import java.awt.*;
 import java.util.Objects;
 import java.util.Random;
 
-import static tdanford.maps.GeometricPrimitive.x;
-import static tdanford.maps.GeometricPrimitive.y;
-
 public class Point implements Comparable<Point>, GeometricPrimitive {
 
     public static final int RADIUS = 3;

@@ -1,8 +1,6 @@
 package tdanford.maps;
 
 import static java.util.stream.Collectors.toList;
-import static tdanford.maps.GeometricPrimitive.x;
-import static tdanford.maps.GeometricPrimitive.y;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;

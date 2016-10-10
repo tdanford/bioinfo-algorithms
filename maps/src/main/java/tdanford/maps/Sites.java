@@ -13,11 +13,19 @@ public class Sites implements Paintable, Supplier<Collection<Point>>, GeometricP
     private static Logger LOG = LoggerFactory.getLogger(Sites.class);
 
     private final ArrayList<Point> sites;
-    private final Supplier<Collection<Point>> siteGenerator;
+    private Supplier<Collection<Point>> siteGenerator;
 
     public Sites(Supplier<Collection<Point>> siteGenerator) {
         this.siteGenerator = siteGenerator;
         this.sites = new ArrayList<>();
+    }
+
+    public void chainSiteSupplier(Supplier<Collection<Point>> newGenerator) {
+        siteGenerator = new Chain<Point>(newGenerator, siteGenerator);
+    }
+
+    public void setToggleSiteSupplier(Supplier<Collection<Point>> newGen) {
+        siteGenerator = new Toggling<>(siteGenerator, newGen);
     }
 
     @Override
@@ -40,5 +48,43 @@ public class Sites implements Paintable, Supplier<Collection<Point>>, GeometricP
 
     public int size() {
         return sites.size();
+    }
+
+    public static class Toggling<T> implements Supplier<T> {
+
+        private boolean first;
+        private Supplier<T> firstSupplier, secondSupplier;
+
+        public Toggling(Supplier<T> fs, Supplier<T> ss) {
+            firstSupplier = fs;
+            secondSupplier = ss;
+            first = false;
+        }
+
+        @Override
+        public T get() {
+            first = !first;
+            return first ? firstSupplier.get() : secondSupplier.get();
+        }
+    }
+
+    public static class Chain<T> implements Supplier<Collection<T>> {
+
+        private Supplier<Collection<T>> rest, first;
+
+        public Chain(Supplier<Collection<T>> first, Supplier<Collection<T>> rest) {
+            this.first = first;
+            this.rest = rest;
+        }
+
+        @Override
+        public Collection<T> get() {
+            Collection<T> f = first.get();
+            if(!f.isEmpty()) {
+                return f;
+            } else {
+                return rest.get();
+            }
+        }
     }
 }
