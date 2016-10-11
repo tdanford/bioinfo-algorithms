@@ -32,7 +32,7 @@ public class Main {
         sites.setToggleSiteSupplier(() -> voronoi.smoothedSites().stream().filter(s -> logical.contains(s)).collect(toList()));
 
         final Viewer v = new Viewer(maxX, maxY);
-        v.addPaintable(new WithColor(Color.red, new Invisible(sites)));
+        v.addPaintable(new WithColor(Color.red, sites));
         //v.addPaintable(new WithColor(Color.green, new ConvexHull(sites)));
         v.addPaintable(new Invisible(delaunay));
         //v.addPaintable(new Paintable.WithColor(new Color(0, 0, 255, 50), delaunay));
