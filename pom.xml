@@ -31,6 +31,8 @@
   <modules>
     <module>suffixarrays</module>
     <module>maps</module>
+    <module>chess</module>
+    <module>decker</module>
   </modules>
 
   <licenses>
@@ -474,7 +476,7 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.7.5</version>
+        <version>1.7.21</version>
       </dependency>
       <dependency>
         <groupId>ch.qos.logback</groupId>

@@ -1,0 +1,35 @@
+<configuration>
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
+  <!-- only send errors to the console using stderr -->
+  <appender name="STDERR" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%date{ISO8601} %-5level: %logger [%thread] - %message%n</pattern>
+    </encoder>
+    <!-- ignore messages with a level below ERROR -->
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>INFO</level>
+    </filter>
+    <target>System.err</target>
+  </appender>
+
+  <!-- all log messages will go to the log file -->
+  <!--
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>chess.log</file>
+    <encoder>
+      <pattern>%date{ISO8601} %-5level: %logger [%thread] - %message%n</pattern>
+    </encoder>
+  </appender>
+  -->
+
+  <root level="warn"> <!-- default log level to WARN -->
+	  <!-- <appender-ref ref="FILE"/> -->
+    <appender-ref ref="STDERR"/>
+  </root>
+
+  <!-- Application Loggers -->
+  <logger name="tdanford">
+    <level value="warn"/>
+  </logger>
+</configuration>
