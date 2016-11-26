@@ -78,24 +78,46 @@ class MoveGenerator implements PieceDispatch<List<Move>> {
   }
 
   @Override
-  public List<Move> king(final boolean isWhite, final int r, final int c, final Board board) {
+  public List<Move> king(final boolean color, final int r, final int c, final Board board) {
     List<Move> moves = new ArrayList<>();
 
-    final BiPredicate<Integer, Integer> attack = (r2, c2) -> isAttacked(board, r2, c2, !isWhite);
+    final BiPredicate<Integer, Integer> attack = (r2, c2) -> isAttacked(board, r2, c2, !color);
 
-    moves = scanMoveLine(moves, board, isWhite, r, c, 1, 1, 1, true, attack);
-    moves = scanMoveLine(moves, board, isWhite, r, c, 1, -1, 1, true, attack);
-    moves = scanMoveLine(moves, board, isWhite, r, c, -1, 1, 1, true, attack);
-    moves = scanMoveLine(moves, board, isWhite, r, c, -1, -1, 1, true, attack);
+    moves = scanMoveLine(moves, board, color, r, c, 1, 1, 1, true, attack);
+    moves = scanMoveLine(moves, board, color, r, c, 1, -1, 1, true, attack);
+    moves = scanMoveLine(moves, board, color, r, c, -1, 1, 1, true, attack);
+    moves = scanMoveLine(moves, board, color, r, c, -1, -1, 1, true, attack);
 
-    moves = scanMoveLine(moves, board, isWhite, r, c, 1, 0, 1, true, attack);
-    moves = scanMoveLine(moves, board, isWhite, r, c, 0, 1, 1, true, attack);
-    moves = scanMoveLine(moves, board, isWhite, r, c, -1, 0, 1, true, attack);
-    moves = scanMoveLine(moves, board, isWhite, r, c, 0, -1, 1, true, attack);
+    moves = scanMoveLine(moves, board, color, r, c, 1, 0, 1, true, attack);
+    moves = scanMoveLine(moves, board, color, r, c, 0, 1, 1, true, attack);
+    moves = scanMoveLine(moves, board, color, r, c, -1, 0, 1, true, attack);
+    moves = scanMoveLine(moves, board, color, r, c, 0, -1, 1, true, attack);
 
-    // TODO: generate castling moves
+    // generate castling moves
+    if(!board.isKingMoved(color)) {
 
-    LOG.info("{} king ({},{}) moves: {}", isWhite ? "white" : "black", r, c, moves.size());
+      if(!board.isKingsRookMoved(color)) {
+        if(board.isEmpty(r, c + 1) && board.isEmpty(r, c + 2) &&
+            !board.isAttacked(r, c, !color) &&
+            !board.isAttacked(r, c + 1, !color) &&
+            !board.isAttacked(r, c + 2, !color)) {
+
+          moves.add(new Move(board.board[Board.offset(r, c)], r, c, r, c + 2));
+        }
+      }
+
+      if(!board.isQueensRookMoved(color)) {
+        if(board.isEmpty(r, c - 1) && board.isEmpty(r, c - 2) && board.isEmpty(r, c - 3) &&
+            !board.isAttacked(r, c, !color) &&
+            !board.isAttacked(r, c - 1, !color) &&
+            !board.isAttacked(r, c - 2, !color)) {
+
+          moves.add(new Move(board.board[Board.offset(r, c)], r, c, r, c - 2));
+        }
+      }
+    }
+
+    LOG.info("{} king ({},{}) moves: {}", color ? "white" : "black", r, c, moves.size());
     return moves;
   }
 
@@ -168,8 +190,10 @@ class MoveGenerator implements PieceDispatch<List<Move>> {
     final boolean hasMoved = isWhite ? r > 1 : r < 6;
     final int direction = isWhite ? 1 : -1;
 
+    // forward move
     moves = scanMoveLine(moves, board, isWhite, r, c, direction, 0, hasMoved ? 1 : 2, false, null);
 
+    // attack
     if(onBoard(r + direction, c - 1) && isOccupied(board, r + direction, c - 1, !isWhite)) {
       moves.add(new Move(board.board[offset], r, c, r + direction, c - 1));
     }
@@ -177,7 +201,14 @@ class MoveGenerator implements PieceDispatch<List<Move>> {
       moves.add(new Move(board.board[offset], r, c, r + direction, c - 1));
     }
 
-    // TODO: en passant
+    // en passant
+    if(board.pawnMoved != -1 &&
+        (board.pawnMoved + 1 == c || board.pawnMoved - 1 == c) &&
+        board.isPawn((int)board.pawnMoved, r, !isWhite)) {
+
+      moves.add(new Move(board.board[offset], r, c, isWhite ? r + 1 : r - 1, (int)board.pawnMoved));
+    }
+
 
     LOG.info("{} pawn ({},{}) moves: {}", isWhite ? "white" : "black", r, c, moves.size());
     return moves;

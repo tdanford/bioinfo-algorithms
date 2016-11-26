@@ -202,5 +202,19 @@ public class Board {
   public List<Move> listMoves() {
     return dispatchOnColorPieces(new MoveGenerator(), new ListAggregator<>(), Board.isWhite(turn));
   }
+
+  public boolean isPawn(final int r, final int c, final boolean color) {
+    final int offset = offset(r, c);
+    return Board.isWhite(board[offset]) == color &&
+        Board.pieceValue(board[offset]) == PAWN;
+  }
+
+  public boolean isEmpty(final int r, final int c) {
+    return board[offset(r, c)] == EMPTY;
+  }
+
+  public boolean isAttacked(int r, int c, boolean color) {
+    return color ? whiteAttack.isSet(r, c) : blackAttack.isSet(r, c);
+  }
 }
 
