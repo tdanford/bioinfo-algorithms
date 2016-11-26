@@ -32,7 +32,7 @@ public class Board {
   public static final byte BLACK_KR_MOVED = 0x01 << 4;
   public static final byte BLACK_QR_MOVED = 0x01 << 5;
 
-  public static final PieceValues VALUATION = new BasicPieceValues();
+  public static final PositionalPieceValues VALUATION = new PositionalPieceValues();
 
   public byte[] board;
   public byte turn;
@@ -111,7 +111,9 @@ public class Board {
   }
 
   public double score(final boolean color) {
-    return dispatchOnColorPieces(new ValueDispatch<Double>(VALUATION), new ScoreAggregator(), color);
+    final double pieceScore = dispatchOnColorPieces(VALUATION, new ScoreAggregator(), color);
+    final double moveScore = isWhite(turn) == color ? 0.1 : 0.0;
+    return moveScore + pieceScore;
   }
 
   public double score() {
