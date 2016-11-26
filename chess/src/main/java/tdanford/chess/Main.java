@@ -1,13 +1,9 @@
 package tdanford.chess;
 
-import java.util.List;
-
-/**
- * Created by tdanford on 11/22/16.
- */
 public class Main {
 
   public static void main(String[] args) {
+    int depth = Integer.parseInt(args[0]);
     BoardRenderer<String> renderer = new SimpleTestBoard();
 
     Board b = new Board();
@@ -15,14 +11,14 @@ public class Main {
 
     System.out.println(renderer.render(b));
 
-    Notation notation = new SimpleAlgebraic();
+    MoveTree tree = new MoveTree();
 
-    System.out.println(String.format("%.2f", b.score()));
-
-    List<Move> moves = b.listMoves();
-    System.out.println("# Moves: " + moves.size());
-    for(final Move m : moves) {
-      System.out.println(notation.notate(b, m));
+    for(int i = 0; i < depth; i++) {
+      tree.expandByDepth(2);
+      tree.evaluate();
+      tree.printHistories();
     }
+
+    //tree.printMoveTree(0, 3);
   }
 }

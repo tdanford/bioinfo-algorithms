@@ -8,6 +8,12 @@ import java.util.stream.Stream;
 
 public class Board {
 
+  public static Board initial() {
+    final Board b = new Board();
+    b.initialize();
+    return b;
+  }
+
   public static final byte PIECE_MASK = 0x06 | 0x05 | 0x04 | 0x03 | 0x02 | 0x01;
   public static final byte EMPTY  = 0x00;
   public static final byte KING   = 0x01;

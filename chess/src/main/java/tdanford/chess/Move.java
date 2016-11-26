@@ -53,6 +53,14 @@ class Move {
   public Board makeMove(final Board from) {
     final int fromOffset = Board.offset(rFrom, cFrom);
     final int toOffset = Board.offset(rTo, cTo);
+
+    if(fromOffset < 0) {
+      throw new IllegalArgumentException(String.format("%d,%d", rFrom, cFrom));
+    }
+    if(toOffset < 0) {
+      throw new IllegalArgumentException(String.format("%d,%d", rTo, cTo));
+    }
+
     final Board to = new Board(from);
 
     to.board[toOffset] = from.board[fromOffset];
@@ -111,5 +119,9 @@ class Move {
 
   public int toOffset() {
     return Board.offset(rTo, cTo);
+  }
+
+  public boolean isWhiteMove() {
+    return Board.isWhite(piece);
   }
 }
